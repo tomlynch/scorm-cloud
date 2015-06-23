@@ -78,11 +78,10 @@ module ScormCloud
     # Execute the call - returns response body or redirect url
     def execute_call_plain(url)
       uri = URI.parse(url)
-      http = Net::HTTP.new(uri)
+      http = Net::HTTP.new(uri.host, 443)
       http.use_ssl = true
-      res = http.request(Net::HTTP::Get.new(uri.request_uri))
-
-
+      res = http.request_get(uri.path + '?' + uri.query)
+      
       # res = Net::HTTP.get_response(URI.parse(url))
 
       case res
